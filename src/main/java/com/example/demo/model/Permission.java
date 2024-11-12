@@ -1,0 +1,90 @@
+package com.example.demo.model;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name= "tbPermission")
+public class Permission {
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
+
+    @Column
+    private Boolean adm;
+
+    // FOREIGN KEY DE FILHO
+    @OneToOne 
+    @JoinColumn 
+    private User participant;
+    
+    @OneToOne 
+    @JoinColumn
+    private Spaces space;
+    
+    
+    // FOREIGN KEY DE PAI
+    @OneToMany(mappedBy = "questioner")
+    private Set<Question> question = new HashSet<>();
+
+    @OneToMany(mappedBy = "respondent")
+    private Set<Answer> answer = new HashSet<>();
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Spaces getSpace() {
+        return space;
+    }
+
+    public void setSpace(Spaces space) {
+        this.space = space;
+    }
+
+    public Boolean getAdm() {
+        return adm;
+    }
+
+    public void setAdm(Boolean adm) {
+        this.adm = adm;
+    }
+
+    public User getParticipant() {
+        return participant;
+    }
+
+    public void setParticipant(User participant) {
+        this.participant = participant;
+    }
+
+    public Set<Question> getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Set<Question> question) {
+        this.question = question;
+    }
+
+    public Set<Answer> getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(Set<Answer> answer) {
+        this.answer = answer;
+    }
+}
