@@ -99,4 +99,91 @@ A função retornará uma constante do enum PasswordValidateCode, que será um d
 
 ## User login(String edv, String password)
 
-### Parâmetros
+Tenta realizar o login de um usuário através os dados passados por parâmetro.
+
+### Parâmetros:
+
+`login : String`
+
+A identificação (edv ou email) do usuário que tenta logar.
+
+`password : String`
+
+A senha fornecida pelo usuário.
+
+### Retorno: User
+
+Um objeto do tipo User, recuperado do banco de dados.  
+Retorna `null` se não encontrar no banco.
+
+## String getAuth(User user)
+
+Cria uma String em formato jwt através dos dados do usuário.
+
+### Parâmetros:
+
+`user : User`
+
+Os dados do usuário, preferencialmente adquiridos através do método `login`.
+
+### Retorno: String
+
+Uma String em formato jwt que será usada para autenticar o usuário em requisições posteriores.
+
+---
+
+# UserValidationServices.java
+
+## boolean validationAnswer(User respondent, Question question)
+
+verifica se o usuário `respondent` pode responder à pergunta `question`.
+
+### Parâmetros:
+
+`respondent : User`
+
+O usuário que tenta responder à pergunta.
+
+`question : Question`
+
+A pergunta que será respondida.
+
+### Retorno : boolean
+
+`true` se `user` tiver permissão, `false` caso contrário.
+
+## boolean isQuestioner(User user, Question question)
+
+verifica se o usuário `user` é quem criou a pergunta `question`.
+
+### Parâmetros:
+
+`user : User`
+
+O usuário.
+
+`question : Question`
+
+A pergunta.
+
+### Retorno : boolean
+
+`true` se `user` tiver criado a pergunta, `false` caso contrário.
+
+## boolean isAdm(User user, Spaces space)
+
+verifica se o usuário `user` é admin do Space `space`.
+
+### Parâmetros:
+
+`user : User`
+
+O usuário.
+
+`space : Space`
+
+O Space.
+
+### Retorno : boolean
+
+`true` se `user` for admin de `space`, `false` caso contrário.
