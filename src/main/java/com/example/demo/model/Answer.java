@@ -23,7 +23,7 @@ public class Answer {
     // FOREIGN KEY DE FILHO
     @ManyToOne
     @JoinColumn
-    private Permission respondent;
+    private User respondent;
 
     @ManyToOne
     @JoinColumn
@@ -53,11 +53,11 @@ public class Answer {
         this.question = question;
     }
 
-    public Permission getRespondent() {
+    public User getRespondent() {
         return respondent;
     }
 
-    public void setRespondent(Permission respondent) {
+    public void setRespondent(User respondent) {
         this.respondent = respondent;
     }
 }
