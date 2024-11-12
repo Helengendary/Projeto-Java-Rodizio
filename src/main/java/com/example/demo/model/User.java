@@ -30,6 +30,9 @@ public class User
 
     @OneToMany(mappedBy = "participant")
     private Set<Permission> permission = new HashSet<>();
+
+    @OneToMany(mappedBy = "respondent")
+    private Set<Answer> answer = new HashSet<>();
     
     public String getEdv() {
         return edv;
@@ -80,5 +83,13 @@ public class User
 
     public void setPermission(Set<Permission> permission) {
         this.permission = permission;
+    }
+
+    public Set<Answer> getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(Set<Answer> answer) {
+        this.answer = answer;
     }
 }
