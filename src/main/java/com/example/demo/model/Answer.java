@@ -8,8 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.util.Set;
-import java.util.HashSet;
 
 @Entity
 @Table(name= "tbAnswer")
@@ -25,11 +23,11 @@ public class Answer {
     // FOREIGN KEY DE FILHO
     @ManyToOne
     @JoinColumn
-    private Set<Permission> respondent = new HashSet<>();
+    private Permission respondent;
 
     @ManyToOne
     @JoinColumn
-    private Set<Question> question = new HashSet<>();
+    private Question question;
 
     public Long getId() {
         return id;
@@ -47,20 +45,19 @@ public class Answer {
         this.answer = answer;
     }
 
-    public Set<Permission> getRespondent() {
-        return respondent;
-    }
-
-    public void setRespondent(Set<Permission> respondent) {
-        this.respondent = respondent;
-    }
-
-    public Set<Question> getQuestion() {
+    public Question getQuestion() {
         return question;
     }
 
-    public void setQuestion(Set<Question> question) {
+    public void setQuestion(Question question) {
         this.question = question;
     }
 
+    public Permission getRespondent() {
+        return respondent;
+    }
+
+    public void setRespondent(Permission respondent) {
+        this.respondent = respondent;
+    }
 }

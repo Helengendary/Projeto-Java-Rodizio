@@ -26,8 +26,7 @@ public class Question {
     // FOREIGN KEY DE FILHO
     @ManyToOne
     @JoinColumn
-    private Set<Permission> questioner = new HashSet<>();
-    
+    private Permission questioner;
     
     // FOREIGN KEY DE PAI
     @OneToMany(mappedBy = "question")
@@ -49,19 +48,19 @@ public class Question {
         this.statement = statement;
     }
 
-    public Set<Permission> getQuestioner() {
-        return questioner;
-    }
-
-    public void setQuestioner(Set<Permission> questioner) {
-        this.questioner = questioner;
-    }
-
     public Set<Answer> getAnswer() {
         return answer;
     }
 
     public void setAnswer(Set<Answer> answer) {
         this.answer = answer;
+    }
+
+    public Permission getQuestioner() {
+        return questioner;
+    }
+
+    public void setQuestioner(Permission questioner) {
+        this.questioner = questioner;
     }
 }
