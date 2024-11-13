@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.DeleteSpaceDto;
 import com.example.demo.dto.NewSpaceDto;
+import com.example.demo.repositories.PermissionRepository;
 import com.example.demo.repositories.SpacesRepository;
 import com.example.demo.repositories.UserRepository;
+import com.example.demo.service.SpaceService;
 import com.example.demo.dto.Token;
 import com.example.demo.model.Spaces;
 import com.example.demo.model.User;
@@ -34,8 +36,14 @@ public class SpaceController {
     @Autowired 
     UserRepository userRepo;
 
+    @Autowired
+    PermissionRepository permissionRepo;
+
+    @Autowired
+    SpaceService spaceService;
+
     @GetMapping()
-    public ResponseEntity<List<Spaces>> getUser(String query, Integer page, Integer size){
+    public ResponseEntity<List<Spaces>> get(String query, Integer page, Integer size){
         if (query.isBlank())
             query = "";
 
@@ -53,38 +61,20 @@ public class SpaceController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createUser(@RequestAttribute("token") Token token, @RequestBody NewSpaceDto space){
+    public ResponseEntity<String> post(@RequestAttribute("token") Token token, @RequestBody NewSpaceDto space){
         Long ownerId = token.getId();
+        Optional<User> spaceOwner = userRepo.findById(ownerId);
 
-        Spaces newSpace = new Spaces();
-
-        Optional<User> ownerOptional = userRepo.findById(ownerId);
-
-        if(!ownerOptional.isPresent())
-            return new ResponseEntity<>("Owner not found", HttpStatus.NOT_FOUND);
-
-        User spaceOwner = ownerOptional.get();
-
-        newSpace.setName(space.name());
-        newSpace.setId(ownerId);
-        newSpace.setOwner(spaceOwner);
-
-        spaceRepo.save(newSpace);
-
+        spaceService.createSpace(space.name(), spaceOwner.get());
+        
         return new ResponseEntity<>("Space created", HttpStatus.CREATED);
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteSpace(@RequestAttribute ("token") Token token, @RequestBody DeleteSpaceDto space){
-        Optional<Spaces> spaces = spaceRepo.findById(space.id());
-
-        if (!spaces.isPresent()) 
-            return new ResponseEntity<>("Space not found", HttpStatus.NOT_FOUND);
+    public ResponseEntity<String> delete(@RequestAttribute ("token") Token token, @RequestBody DeleteSpaceDto space){
             
-        spaceRepo.delete(spaces.get());
-
+        if(!spaceService.deleteSpace(space.id()))
+            return new ResponseEntity<>("Space not found", HttpStatus.NOT_FOUND);
         return new ResponseEntity<>("Space deleted", HttpStatus.OK);
-        
-
     }
 }

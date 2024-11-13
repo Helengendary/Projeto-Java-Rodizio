@@ -1,20 +1,47 @@
 package com.example.demo.impl;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import com.example.demo.model.Spaces;
 import com.example.demo.model.User;
+import com.example.demo.repositories.SpacesRepository;
+import com.example.demo.repositories.UserRepository;
 import com.example.demo.service.SpaceService;
 
 public class SpaceImpl implements SpaceService {
 
-    @Override
-    public Boolean createSpace(String name, User owner) {
+    @Autowired 
+    SpacesRepository spaceRepo;
 
-        throw new UnsupportedOperationException("Unimplemented method 'createSpace'");
+    @Autowired
+    UserRepository userRepo;
+
+    @Override
+    public Boolean createSpace(String name, User spaceOwner) {
+        Spaces newSpace = new Spaces();
+
+        newSpace.setName(name);
+        newSpace.setOwner(spaceOwner);
+
+        spaceRepo.save(newSpace);
+
+        return true;
     }
 
     @Override
     public Boolean deleteSpace(Long idSpace) {
-       
-        throw new UnsupportedOperationException("Unimplemented method 'deleteSpace'");
+       Optional<Spaces> spaces = spaceRepo.findById(idSpace);
+
+        if(!spaces.isPresent())
+            return false;
+
+        spaceRepo.delete(spaces.get());
+
+        return true;
     }
 
     @Override
