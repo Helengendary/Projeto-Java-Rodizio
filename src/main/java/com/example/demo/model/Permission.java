@@ -32,7 +32,6 @@ public class Permission {
     @JoinColumn
     private Spaces space;
     
-    
     // FOREIGN KEY DE PAI
     @OneToMany(mappedBy = "questioner")
     private Set<Question> question = new HashSet<>();
