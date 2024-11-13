@@ -7,5 +7,5 @@ public interface SpaceService {
 
     Boolean deleteSpace(Long idSpace);
     
-    Boolean UpdateSpace(Long idSpace, String nome, User owner);
+    Boolean updateSpace(Long idSpace, String nome, User owner);
 }

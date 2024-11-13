@@ -5,5 +5,5 @@ public interface UserService {
 
     Boolean deleteUser(Long idUser);
 
-    Boolean UpdatePass(String edv, String newPass);
+    Boolean updatePass(String edv, String newPass);
 }
