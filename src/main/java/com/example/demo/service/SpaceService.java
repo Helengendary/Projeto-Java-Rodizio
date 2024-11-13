@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.model.Spaces;
 import com.example.demo.model.User;
 
 public interface SpaceService {
@@ -8,4 +9,5 @@ public interface SpaceService {
     Boolean deleteSpace(Long idSpace);
     
     Boolean updateSpace(Long idSpace, String nome, User owner);
+
 }
