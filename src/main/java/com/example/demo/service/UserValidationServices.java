@@ -9,5 +9,5 @@ public interface UserValidationServices {
     
     Boolean isQuestioner(User user, Question question); //! SE AQUELA PESSOA FEZ A PERGUNTA
     
-    Boolean idAdm(User user, Spaces space); //! SE A PESSOA É ADM DO ESPAÇO
+    Boolean idAdmOrOwner(User user, Spaces space); //! SE A PESSOA É ADM DO ESPAÇO
 }
