@@ -1,6 +1,5 @@
 package com.example.demo.impl;
 
-import com.example.demo.model.Spaces;
 import com.example.demo.model.User;
 import com.example.demo.service.SpaceService;
 

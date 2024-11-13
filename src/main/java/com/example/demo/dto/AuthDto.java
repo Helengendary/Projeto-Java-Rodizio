@@ -1,7 +1,7 @@
 package com.example.demo.dto;
 
-public record NewUserDto(
+public record AuthDto(
     String edv,
-    String email,
     String password
 ) {}
+
