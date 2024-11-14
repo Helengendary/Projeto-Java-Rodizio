@@ -14,11 +14,11 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByEdv(String edv);
 
-    @Query
-    ("SELECT u from tbUser u where u.email like '%?1%'")
-    List<User> findByQuery(String query, Pageable pageable);
+    @Query("SELECT u FROM User u WHERE u.email LIKE %:query%")
+    public List<User> findByQuery(@Param("query") String query, Pageable pageable);
 
-    @Query
-    ("select u from tbUser u where edv = :login or email = :login")
-    List<User> findByLogin(@Param("login") String login);
+
+    // @Query
+    // ("select u from tbUser u where edv = :login or email = :login")
+    // public List<User> findByLogin(@Param("login") String login);
 }

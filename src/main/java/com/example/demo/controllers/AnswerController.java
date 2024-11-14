@@ -52,7 +52,7 @@ public class AnswerController {
         Optional<Question> question = questionRepo.findById(answer.questionId());
         Optional<Spaces> spaces = spaceRepo.findById(answer.spaceId());
 
-        List<Permission> permissions = permissionRepo.findBySpaceAndUser(spaces.get(), answerOwner.get());
+        List<Permission> permissions = permissionRepo.findBySpaceAndParticipant(spaces.get(), answerOwner.get());
 
         if(permissions.isEmpty())
             return new ResponseEntity<>("Voce não tem essa permissao", HttpStatus.FORBIDDEN);

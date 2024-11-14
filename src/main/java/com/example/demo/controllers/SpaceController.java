@@ -77,7 +77,7 @@ public class SpaceController {
         Optional<Spaces> spaces = spaceRepo.findById(space.id());
         Optional<User> users = userRepo.findById(token.getId());
 
-        List<Permission> permissions = permissionRepo.findBySpaceAndUser(spaces.get(), users.get());
+        List<Permission> permissions = permissionRepo.findBySpaceAndParticipant(spaces.get(), users.get());
 
         if (permissions.isEmpty() || !permissions.get(0).getAdm()) 
             return new ResponseEntity<>("You don't have permission", HttpStatus.FORBIDDEN);

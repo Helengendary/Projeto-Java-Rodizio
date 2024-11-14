@@ -18,7 +18,7 @@ public class PermissionImpl implements PermissionService {
     @Override
     public Boolean createPermission(Spaces space, User user, Boolean idOwnerOrAdm) {
         
-        List<Permission> permissions = permissionRepo.findBySpaceAndUser(space, user);
+        List<Permission> permissions = permissionRepo.findBySpaceAndParticipant(space, user);
 
         if (permissions.isEmpty() || permissions.size() > 1)
             return false;

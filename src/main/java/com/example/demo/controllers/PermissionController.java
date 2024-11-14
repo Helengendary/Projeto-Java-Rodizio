@@ -44,13 +44,13 @@ public class PermissionController {
         Optional<User> userAdm = userRepo.findById(token.getId());
         Optional<Spaces> space = spaceRepo.findById(permission.spaceId());
 
-        List<Permission> permissions = permissionRepo.findBySpaceAndUser(space.get(), userAdm.get());
+        List<Permission> permissions = permissionRepo.findBySpaceAndParticipant(space.get(), userAdm.get());
 
         if(permissions.isEmpty() || !permissions.get(0).getAdm())
             return new ResponseEntity<>("Voce não tem essa permissao", HttpStatus.FORBIDDEN);
 
         Optional<User> user = userRepo.findById(permission.userId());
-        permissions = permissionRepo.findBySpaceAndUser(space.get(), user.get());
+        permissions = permissionRepo.findBySpaceAndParticipant(space.get(), user.get());
 
         if(!permissionService.createPermission(space.get(), user.get(), permissions.get(0).getAdm()))
             return new ResponseEntity<>("Algo deu errado", HttpStatus.BAD_REQUEST);

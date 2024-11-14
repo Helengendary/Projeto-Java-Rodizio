@@ -86,7 +86,7 @@ public class QuestionController {
 
         Spaces space = repoSpace.findById(question.idSpace()).get();
 
-        List<Permission> permissions = repoPerm.findBySpaceAndUser(space, user);
+        List<Permission> permissions = repoPerm.findBySpaceAndParticipant(space, user);
 
         if(permissions.isEmpty())
             return new ResponseEntity<>("Voce não tem essa permissao", HttpStatus.FORBIDDEN);

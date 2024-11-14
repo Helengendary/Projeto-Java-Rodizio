@@ -9,7 +9,8 @@ import com.example.demo.model.Answer;
 import com.example.demo.model.Question;
 
 @Repository
-public interface AnswerRepository extends JpaRepository<Answer, Long>{
-    @Query("SELECT a FROM tbAnswer a WHERE a.question = :ques")
+public interface AnswerRepository extends JpaRepository<Answer, Long> {
+    @Query("SELECT a FROM Answer a WHERE a.question = :ques")
     Answer findByQuestion(@Param("ques") Question ques);
 }
+
