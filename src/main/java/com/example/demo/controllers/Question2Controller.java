@@ -12,7 +12,7 @@ import com.example.demo.dto.Token;
 
 @RestController
 @RequestMapping("/question")
-public class QuestionController {
+public class Question2Controller {
     
     @PostMapping
     public ResponseEntity<String> post(@RequestAttribute("token") Token token, @RequestBody NewQuestionDto question){
