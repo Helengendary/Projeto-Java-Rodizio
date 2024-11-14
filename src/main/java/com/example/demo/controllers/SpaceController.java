@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.DeleteSpaceDto;
 import com.example.demo.dto.NewSpaceDto;
-import com.example.demo.repositories.PermissionRepository;
 import com.example.demo.repositories.SpacesRepository;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.service.SpaceService;
@@ -35,9 +34,6 @@ public class SpaceController {
 
     @Autowired 
     UserRepository userRepo;
-
-    @Autowired
-    PermissionRepository permissionRepo;
 
     @Autowired
     SpaceService spaceService;

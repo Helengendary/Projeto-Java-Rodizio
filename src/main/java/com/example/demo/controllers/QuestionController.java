@@ -3,10 +3,17 @@ package com.example.demo.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.NewQuestionDto;
+import com.example.demo.dto.Token;
+import com.example.demo.model.Permission;
+import com.example.demo.model.User;
 import com.example.demo.model.Question;
 import com.example.demo.model.Spaces;
+import com.example.demo.repositories.PermissionRepository;
 import com.example.demo.repositories.QuestionRepository;
 import com.example.demo.repositories.SpacesRepository;
+import com.example.demo.repositories.UserRepository;
+import com.example.demo.service.QuestionService;
 
 import java.util.List;
 
@@ -17,6 +24,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/question")
@@ -26,7 +36,16 @@ public class QuestionController {
     QuestionRepository repoQuestion;
 
     @Autowired
+    QuestionService serviceQuestion;
+
+    @Autowired
     SpacesRepository repoSpace;
+
+    @Autowired
+    PermissionRepository repoPerm;
+
+    @Autowired
+    UserRepository repoUser;
 
     @GetMapping("/{space}")
     public ResponseEntity<List<Question>> getQuestions(@PathVariable Long spaceId, Integer page, Integer size) {
@@ -59,6 +78,23 @@ public class QuestionController {
 
         return new ResponseEntity<>(question, HttpStatus.OK);
     }
+
+    @PostMapping()
+    public ResponseEntity<String> postQuestion(@RequestAttribute("token") Token token, @RequestBody NewQuestionDto question) {
+
+        User user = repoUser.findById(token.getId()).get();
+
+        Spaces space = repoSpace.findById(question.idSpace()).get();
+
+        List<Permission> permissions = repoPerm.findBySpaceAndUser(space, user);
+
+        if(permissions.isEmpty())
+            return new ResponseEntity<>("Voce não tem essa permissao", HttpStatus.FORBIDDEN);
+
+        serviceQuestion.createQuestion(question.statement(), permissions.get(0));
+
+        return new ResponseEntity<>("Pergunta enviada", HttpStatus.OK);
+    }
     
-    
+
 }
