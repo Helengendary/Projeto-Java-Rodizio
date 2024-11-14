@@ -29,13 +29,13 @@ public class AnswerImpl implements AnswerService {
 
     @Override
     public Boolean updateAnswer(String newAnswer, User respondent, Integer questionId) {
-
+        return false;
     }
 
     @Override
     public Boolean deleteAnswer(User respondent, Integer questionId) {
      
-        answerRepo.findById(null)
+        return false;
     }
     
 }

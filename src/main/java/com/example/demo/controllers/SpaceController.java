@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.DeleteSpaceDto;
 import com.example.demo.dto.NewSpaceDto;
+import com.example.demo.repositories.PermissionRepository;
 import com.example.demo.repositories.SpacesRepository;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.service.SpaceService;
 import com.example.demo.dto.Token;
+import com.example.demo.model.Permission;
 import com.example.demo.model.Spaces;
 import com.example.demo.model.User;
 
@@ -37,6 +39,9 @@ public class SpaceController {
 
     @Autowired
     SpaceService spaceService;
+
+    @Autowired
+    PermissionRepository permissionRepo;
 
     @GetMapping()
     public ResponseEntity<List<Spaces>> get(String query, Integer page, Integer size){
@@ -68,9 +73,18 @@ public class SpaceController {
 
     @DeleteMapping
     public ResponseEntity<String> delete(@RequestAttribute ("token") Token token, @RequestBody DeleteSpaceDto space){
+
+        Optional<Spaces> spaces = spaceRepo.findById(space.id());
+        Optional<User> users = userRepo.findById(token.getId());
+
+        List<Permission> permissions = permissionRepo.findBySpaceAndUser(spaces.get(), users.get());
+
+        if (permissions.isEmpty() || !permissions.get(0).getAdm()) 
+            return new ResponseEntity<>("You don't have permission", HttpStatus.FORBIDDEN);
             
         if(!spaceService.deleteSpace(space.id()))
             return new ResponseEntity<>("Space not found", HttpStatus.NOT_FOUND);
+            
         return new ResponseEntity<>("Space deleted", HttpStatus.OK);
     }
 }
