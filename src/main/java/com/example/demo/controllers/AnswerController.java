@@ -45,8 +45,7 @@ public class AnswerController {
         Optional<User> answerOwner = userRepo.findById(ownerId);
         Optional<Question> question = questionRepo.findById(answer.questionId());
         
-
-
+        
 
         if(!answerService.createAnswer(answer.statement(),answerOwner.get(), question.get()))
             return new ResponseEntity<>("A resposta não pode ser postada", HttpStatus.BAD_GATEWAY);
