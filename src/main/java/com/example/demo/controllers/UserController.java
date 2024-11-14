@@ -43,7 +43,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getMethodName(String query, Integer page, Integer size) {
+    public ResponseEntity<List<User>> getusers(String query, Integer page, Integer size) {
 
         if(query.isBlank())
             query = "";
