@@ -1,5 +1,6 @@
 package com.example.demo.dto;
 
-public record NewSpaceDto(
+public record SpaceQueryDto(
+    Long id,
     String name
 ) {}

@@ -29,9 +29,12 @@ public class QuestionImpl implements QuestionService{
 
     
     @Override
-    public Boolean deleteQuestion(Integer questionid, Permission permission) {
-        
-        Question question = repository.findById(questionid.longValue()).get();
+    public Boolean deleteQuestion(Long questionId, Permission permission) {
+
+        if(!permission.getAdm())
+            return false;
+
+        Question question = repository.findById(questionId).get();
         
         repository.delete(question);
         

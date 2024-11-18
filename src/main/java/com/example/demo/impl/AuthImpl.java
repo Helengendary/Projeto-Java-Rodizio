@@ -24,6 +24,10 @@ public class AuthImpl implements AuthService{
     @Override
     public User login(String edv, String password) {
         List<User> user = repo.findByEdv(edv);
+        
+        if(user.isEmpty())
+            return null;
+        
 
         if(passwordService.matches(password, user.get(0).getPassword())){
             return user.get(0);

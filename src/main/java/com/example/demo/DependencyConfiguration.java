@@ -44,7 +44,6 @@ public class DependencyConfiguration {
     }
 
     @Bean
-    @Scope("prototype")
     public PasswordEncoderService PasswordEncoderService(){
         return new PasswordEncoderImpl();
     }

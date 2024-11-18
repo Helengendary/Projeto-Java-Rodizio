@@ -1,11 +1,10 @@
 package com.example.demo.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.DeleteSpaceDto;
 import com.example.demo.dto.NewSpaceDto;
+import com.example.demo.dto.SpaceQueryDto;
 import com.example.demo.repositories.PermissionRepository;
 import com.example.demo.repositories.SpacesRepository;
 import com.example.demo.repositories.UserRepository;
+import com.example.demo.service.PermissionService;
 import com.example.demo.service.SpaceService;
 import com.example.demo.dto.Token;
 import com.example.demo.model.Permission;
@@ -43,9 +44,12 @@ public class SpaceController {
     @Autowired
     PermissionRepository permissionRepo;
 
+    @Autowired
+    PermissionService permissionService;
+
     @GetMapping()
-    public ResponseEntity<List<Spaces>> get(String query, Integer page, Integer size){
-        if (query.isBlank())
+    public ResponseEntity<List<SpaceQueryDto>> get(String query, Integer page, Integer size){
+        if (query == null)
             query = "";
 
         if (page == null)
@@ -54,21 +58,36 @@ public class SpaceController {
         if (size == null)
             size = 2;
 
-        Pageable pageable = PageRequest.of(page,size);
+        List<Spaces> spaces = spaceRepo.queryFindByName(query, (page-1)*size, size);
 
-        List<Spaces> spaces = spaceRepo.queryFindByName(query, pageable);
+        List<SpaceQueryDto> spacesDto = new ArrayList<>();
+
+        for (Spaces space : spaces) {
+            SpaceQueryDto newSpace = new SpaceQueryDto(space.getId(), space.getName());
+            spacesDto.add(newSpace);   
+        }
         
-        return new ResponseEntity<>(spaces, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(spacesDto, HttpStatus.ACCEPTED);
     }
-
+    
+    
     @PostMapping
     public ResponseEntity<String> post(@RequestAttribute("token") Token token, @RequestBody NewSpaceDto space){
         Long ownerId = token.getId();
         Optional<User> spaceOwner = userRepo.findById(ownerId);
-
-        spaceService.createSpace(space.name(), spaceOwner.get());
+        List<Spaces> findedSpaces = spaceRepo.findByName(space.name());
         
+        if(!findedSpaces.isEmpty())
+            return new ResponseEntity<>("Já existe um espaço com esse nome", HttpStatus.FORBIDDEN);
+        
+        spaceService.createSpace(space.name(), spaceOwner.get());
+        findedSpaces = spaceRepo.findByName(space.name());
+
+        permissionService.createPermission(spaceOwner.get(), findedSpaces.get(0), true);
         return new ResponseEntity<>("Space created", HttpStatus.CREATED);
+        // {
+        //     "name":"espacoMaker"
+        // }
     }
 
     @DeleteMapping
@@ -77,13 +96,19 @@ public class SpaceController {
         Optional<Spaces> spaces = spaceRepo.findById(space.id());
         Optional<User> users = userRepo.findById(token.getId());
 
+        if(spaces.isEmpty())
+            return new ResponseEntity<>("Space not found", HttpStatus.NOT_FOUND);
+
         List<Permission> permissions = permissionRepo.findBySpaceAndParticipant(spaces.get(), users.get());
+        System.out.println(permissions.size());
 
         if (permissions.isEmpty() || !permissions.get(0).getAdm()) 
             return new ResponseEntity<>("You don't have permission", HttpStatus.FORBIDDEN);
+
+        permissionService.deletePermission(permissions.get(0).getId());
             
         if(!spaceService.deleteSpace(space.id()))
-            return new ResponseEntity<>("Space not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Error deleting the space", HttpStatus.NOT_ACCEPTABLE);
             
         return new ResponseEntity<>("Space deleted", HttpStatus.OK);
     }

@@ -52,7 +52,7 @@ public class PermissionController {
         Optional<User> user = userRepo.findById(permission.userId());
         permissions = permissionRepo.findBySpaceAndParticipant(space.get(), user.get());
 
-        if(!permissionService.createPermission(space.get(), user.get(), permissions.get(0).getAdm()))
+        if(!permissionService.editPermission(space.get(), user.get(), permissions.get(0).getAdm()))
             return new ResponseEntity<>("Algo deu errado", HttpStatus.BAD_REQUEST);
         
         return new ResponseEntity<>("Permissao alterada", HttpStatus.OK);

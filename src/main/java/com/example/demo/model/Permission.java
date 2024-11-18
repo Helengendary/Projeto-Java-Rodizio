@@ -11,7 +11,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,11 +25,11 @@ public class Permission {
 
     // FOREIGN KEY DE FILHO
     @ManyToOne
-    @JoinColumn 
+    @JoinColumn(name = "user_id")
     private User participant;
     
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "space_id")
     private Spaces space;
     
     // FOREIGN KEY DE PAI

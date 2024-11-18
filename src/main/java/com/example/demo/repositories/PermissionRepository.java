@@ -13,6 +13,6 @@ import java.util.List;
 @Repository
 public interface PermissionRepository extends JpaRepository<Permission, Long> {
     List<Permission> findBySpace(Spaces space);
-    // List<Permission> findByparticipant(User user);
+    List<Permission> findByParticipant(User user);
     List<Permission> findBySpaceAndParticipant(Spaces space, User user);
 }

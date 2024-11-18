@@ -16,7 +16,7 @@ public class PermissionImpl implements PermissionService {
     PermissionRepository permissionRepo;
 
     @Override
-    public Boolean createPermission(Spaces space, User user, Boolean idOwnerOrAdm) {
+    public Boolean editPermission(Spaces space, User user, Boolean idOwnerOrAdm) {
         
         List<Permission> permissions = permissionRepo.findBySpaceAndParticipant(space, user);
 
@@ -29,9 +29,25 @@ public class PermissionImpl implements PermissionService {
     }
 
     @Override
-    public Boolean deletePermission(Spaces space, User user, Boolean idOwnerOrAdm) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deletePermission'");
+    public Boolean deletePermission(Long idPermission) {
+        Permission permission = permissionRepo.findById(idPermission).get();
+
+        if(permission == null)
+            return false;
+        permissionRepo.delete(permission);
+        return true;
+    }
+
+    @Override
+    public Boolean createPermission(User user, Spaces space, Boolean adm) {
+        Permission newPermission = new Permission();
+        newPermission.setParticipant(user);
+        newPermission.setSpace(space);
+        newPermission.setAdm(adm);
+
+        permissionRepo.save(newPermission);
+        System.out.println("Permissao criada");
+        return true;
     }
     
 }
