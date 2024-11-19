@@ -1,0 +1,14 @@
+nav{
+
+    background-color: #2B2B2B;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 3%;
+    padding-right: 3%;
+    padding: 1%;
+}
+
+nav img{
+
+    width: 15%;
+}
