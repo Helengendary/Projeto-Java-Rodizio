@@ -52,6 +52,10 @@ public class PermissionController {
         Optional<User> user = userRepo.findById(permission.userId());
         permissions = permissionRepo.findBySpaceAndParticipant(space.get(), user.get());
 
+        if(permissions.isEmpty())
+            if(permissionService.createPermission(user.get(), space.get(), permission.isAdm()))
+                return new ResponseEntity<>("Permissao criada", HttpStatus.OK);
+        
         if(!permissionService.editPermission(space.get(), user.get(), permissions.get(0).getAdm()))
             return new ResponseEntity<>("Algo deu errado", HttpStatus.BAD_REQUEST);
         

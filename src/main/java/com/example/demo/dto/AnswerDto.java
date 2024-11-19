@@ -4,6 +4,4 @@ public record AnswerDto(
     String statement,
     Long questionId,
     Long spaceId
-) {
-    
-}
+) {}
