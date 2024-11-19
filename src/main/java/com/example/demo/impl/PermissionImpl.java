@@ -46,7 +46,6 @@ public class PermissionImpl implements PermissionService {
         newPermission.setAdm(adm);
 
         permissionRepo.save(newPermission);
-        System.out.println("Permissao criada");
         return true;
     }
     

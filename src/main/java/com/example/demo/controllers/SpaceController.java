@@ -84,7 +84,7 @@ public class SpaceController {
         findedSpaces = spaceRepo.findByName(space.name());
 
         permissionService.createPermission(spaceOwner.get(), findedSpaces.get(0), true);
-        return new ResponseEntity<>("Space created", HttpStatus.CREATED);
+        return new ResponseEntity<>("Espaço criado", HttpStatus.CREATED);
         // {
         //     "name":"espacoMaker"
         // }
@@ -97,19 +97,18 @@ public class SpaceController {
         Optional<User> users = userRepo.findById(token.getId());
 
         if(spaces.isEmpty())
-            return new ResponseEntity<>("Space not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Espaço não encontrado", HttpStatus.NOT_FOUND);
 
         List<Permission> permissions = permissionRepo.findBySpaceAndParticipant(spaces.get(), users.get());
-        System.out.println(permissions.size());
 
         if (permissions.isEmpty() || !permissions.get(0).getAdm()) 
-            return new ResponseEntity<>("You don't have permission", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Você não tem permissão", HttpStatus.FORBIDDEN);
 
         permissionService.deletePermission(permissions.get(0).getId());
             
         if(!spaceService.deleteSpace(space.id()))
-            return new ResponseEntity<>("Error deleting the space", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>("Erro deletando o espaço", HttpStatus.NOT_ACCEPTABLE);
             
-        return new ResponseEntity<>("Space deleted", HttpStatus.OK);
+        return new ResponseEntity<>("Espaço deletado", HttpStatus.OK);
     }
 }

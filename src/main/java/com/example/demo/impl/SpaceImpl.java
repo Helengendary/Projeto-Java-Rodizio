@@ -29,7 +29,6 @@ public class SpaceImpl implements SpaceService {
     @Override
     public Boolean deleteSpace(Long idSpace) {
        Optional<Spaces> spaces = spaceRepo.findById(idSpace);
-       System.out.println(spaces.get().getName());
 
         if(!spaces.isPresent())
             return false;

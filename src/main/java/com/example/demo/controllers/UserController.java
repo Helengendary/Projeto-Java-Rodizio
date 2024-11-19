@@ -25,7 +25,7 @@ public class UserController {
     UserService userService;
 
     @Autowired
-    UserRepository repository;
+    UserRepository userRepo;
 
     @PostMapping
     public ResponseEntity<String> postNewUser(@RequestBody NewUserDto user){
@@ -33,7 +33,7 @@ public class UserController {
         if(user.email() == null || user.edv() == null || user.password() == null)
             return new ResponseEntity<>("Preencha todos os campos!", HttpStatus.BAD_REQUEST);
 
-        List<User> findedUsers = repository.findByEdv(user.edv());
+        List<User> findedUsers = userRepo.findByEdv(user.edv());
         
         if(!findedUsers.isEmpty())
             return new ResponseEntity<>("Edv já cadastrado.", HttpStatus.FORBIDDEN);
@@ -61,15 +61,11 @@ public class UserController {
         if(size == null)
             size = 10;
         
-        List<User> users = repository.findByQuery(query, (page-1) * size, size);
+        List<User> users = userRepo.findByQuery(query, (page-1) * size, size);
         
         if(users.isEmpty()){
-            System.out.println("ERRO");
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-        
-        System.out.println("CHAMA");
-        
         return new ResponseEntity<>(users, HttpStatus.OK);
 
         // user?query=a&page=2&size=3

@@ -1,21 +1,5 @@
 package com.example.demo.controllers;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.example.demo.dto.DeleteSpaceDto;
-import com.example.demo.dto.NewQuestionDto;
-import com.example.demo.dto.Token;
-import com.example.demo.model.Permission;
-import com.example.demo.model.User;
-import com.example.demo.model.Question;
-import com.example.demo.model.Spaces;
-import com.example.demo.repositories.PermissionRepository;
-import com.example.demo.repositories.QuestionRepository;
-import com.example.demo.repositories.SpacesRepository;
-import com.example.demo.repositories.UserRepository;
-import com.example.demo.service.QuestionService;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,27 +13,40 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.NewQuestionDto;
 import com.example.demo.dto.QuestionDto;
+import com.example.demo.dto.Token;
+import com.example.demo.model.Permission;
+import com.example.demo.model.Question;
+import com.example.demo.model.Spaces;
+import com.example.demo.model.User;
+import com.example.demo.repositories.PermissionRepository;
+import com.example.demo.repositories.QuestionRepository;
+import com.example.demo.repositories.SpacesRepository;
+import com.example.demo.repositories.UserRepository;
+import com.example.demo.service.QuestionService;
 
 @RestController
 @RequestMapping("/question")
 public class QuestionController {
 
     @Autowired
-    QuestionRepository repoQuestion;
+    QuestionRepository questionRepo;
 
     @Autowired
-    QuestionService serviceQuestion;
+    QuestionService questionService;
 
     @Autowired
-    SpacesRepository repoSpace;
+    SpacesRepository spaceRepo;
 
     @Autowired
-    PermissionRepository repoPerm;
+    PermissionRepository permissionRepo;
 
     @Autowired
-    UserRepository repoUser;
+    UserRepository userRepo;
 
     @GetMapping("/space/{spaceId}")
     public ResponseEntity<List<QuestionDto>> getQuestions(@PathVariable Long spaceId, Integer page, Integer size) {
@@ -60,7 +57,7 @@ public class QuestionController {
         if(size == null)
             size = 2;
         
-        List<Question> questions = repoQuestion.findBySpace(spaceId, (page-1)*size, size);
+        List<Question> questions = questionRepo.findBySpace(spaceId, (page-1)*size, size);
 
         if(questions.isEmpty())
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -78,7 +75,7 @@ public class QuestionController {
     @GetMapping("/{id}")
     public ResponseEntity<QuestionDto> getQuestions(@PathVariable Long id) {
 
-        Question question = repoQuestion.findById(id).get();
+        Question question = questionRepo.findById(id).get();
         
         if(question == null)
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -91,16 +88,16 @@ public class QuestionController {
     @PostMapping()
     public ResponseEntity<String> postQuestion(@RequestAttribute("token") Token token, @RequestBody NewQuestionDto question) {
 
-        User user = repoUser.findById(token.getId()).get();
+        User user = userRepo.findById(token.getId()).get();
 
-        Spaces space = repoSpace.findById(question.idSpace()).get();
+        Spaces space = spaceRepo.findById(question.idSpace()).get();
 
-        List<Permission> permissions = repoPerm.findBySpaceAndParticipant(space, user);
+        List<Permission> permissions = permissionRepo.findBySpaceAndParticipant(space, user);
 
         if(permissions.isEmpty())
             return new ResponseEntity<>("Voce não tem essa permissao", HttpStatus.FORBIDDEN);
 
-        serviceQuestion.createQuestion(question.statement(), permissions.get(0));
+        questionService.createQuestion(question.statement(), permissions.get(0));
 
         return new ResponseEntity<>("Pergunta enviada", HttpStatus.OK);
 
@@ -113,13 +110,13 @@ public class QuestionController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@RequestAttribute ("token") Token token, @PathVariable Long id){
 
-        Optional<User> users = repoUser.findById(token.getId());
+        Optional<User> users = userRepo.findById(token.getId());
 
-        List<Permission> permissions = repoPerm.findByParticipant(users.get());
+        List<Permission> permissions = permissionRepo.findByParticipant(users.get());
 
-        if(!serviceQuestion.deleteQuestion(id, permissions.get(0)))
-            return new ResponseEntity<>("Error deleting the question", HttpStatus.NOT_ACCEPTABLE);
+        if(!questionService.deleteQuestion(id, permissions.get(0)))
+            return new ResponseEntity<>("Erro deletando a pergunta", HttpStatus.NOT_ACCEPTABLE);
             
-        return new ResponseEntity<>("Question deleted", HttpStatus.OK);
+        return new ResponseEntity<>("Pergunta deletada", HttpStatus.OK);
     }
 }
