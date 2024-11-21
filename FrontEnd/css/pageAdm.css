@@ -1,0 +1,46 @@
+* {
+
+    margin: 0;
+    padding: 0;
+}
+
+body {
+
+    background-color: #1B1A1A;
+    color: #EDEBE6
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+th {
+    background-color: #333333;
+    color: #EDEBE6;
+
+}
+
+td {
+    background-color: #262626;
+    color: #EDEBE6;
+}
+
+table img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.2);
+}

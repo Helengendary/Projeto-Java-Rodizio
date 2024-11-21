@@ -7,7 +7,27 @@
 body{
 
     background-color: #1B1A1A;
+
 }
+
+.createGroup{
+
+    color: #1B1A1A;
+    background-color: #EDEBE6;
+    padding: 2%;
+    width: 200px;
+
+}
+
+.pageInicial{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
 
 /* .color1 { #edebe6 };
 .color2 { #d6e1c7 };
