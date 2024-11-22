@@ -35,11 +35,8 @@ public class UserController {
 
         List<User> findedUsers = userRepo.findByEdv(user.edv());
         
-        if(!findedUsers.isEmpty()){
-            System.out.println("forbidden do controller");
+        if(!findedUsers.isEmpty())
             return new ResponseEntity<>("Edv já cadastrado.", HttpStatus.FORBIDDEN);
-
-        }
         
         userService.createUser(user.edv(), user.email(), user.password());
 
