@@ -50,7 +50,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getusers(String query, Integer page, Integer size) {
+    public ResponseEntity<List<User>> getusers(String query, Integer page, Integer size){
 
         if(query == null)
             query = "";

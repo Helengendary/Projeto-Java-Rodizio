@@ -1,9 +1,11 @@
-function registrar() {
-    emailInput = document.getElementById("email")
-    edvInput = document.getElementById("edv")
-    passInput = document.getElementById("pass")
+const emailInput = document.getElementById("email")
+const edvInput = document.getElementById("edv")
+const passInput = document.getElementById("pass")
 
-    const response = fetch(
+
+async function registrar() {
+
+    const response = await fetch(
         'http://localhost:8080/user',
         {
             method: 'post',
@@ -12,12 +14,14 @@ function registrar() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                email: emailInput,
-                edv: edvInput,
-                pass: passInput
+                edv: edvInput.value,
+                email: emailInput.value,
+                password: passInput.value
             })
         }
     )
-    .then()
 
+    const content = await response.text();
+    alert(content);
+    location.replace("/index.html");
 }
