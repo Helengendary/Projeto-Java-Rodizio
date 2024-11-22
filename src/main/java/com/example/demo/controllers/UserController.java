@@ -29,17 +29,14 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<String> postNewUser(@RequestBody NewUserDto user){
-
         if(user.email() == null || user.edv() == null || user.password() == null)
             return new ResponseEntity<>("Preencha todos os campos!", HttpStatus.BAD_REQUEST);
 
         List<User> findedUsers = userRepo.findByEdv(user.edv());
         
-        if(!findedUsers.isEmpty()){
-            System.out.println("forbidden do controller");
+        if(!findedUsers.isEmpty())
             return new ResponseEntity<>("Edv já cadastrado.", HttpStatus.FORBIDDEN);
 
-        }
         
         userService.createUser(user.edv(), user.email(), user.password());
 
