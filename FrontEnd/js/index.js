@@ -27,5 +27,12 @@ login_button.addEventListener('click', async() => {
     )
 
     const content = await response.json()
-    console.log(content)
+
+    if(response.status !== 200){
+        alert(content.message)
+        return
+    }
+
+    sessionStorage.setItem(content.token)
+
 })
