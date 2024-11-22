@@ -33,7 +33,7 @@ login_button.addEventListener('click', async() => {
         return
     }
 
-    sessionStorage.setItem(content.token)
-    location.replace("/pageInicial");
+    sessionStorage.setItem('token', 'Bearer ' + content.token)
+    location.replace("/pageInicial.html");
 
 })
