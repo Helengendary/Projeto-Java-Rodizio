@@ -34,12 +34,9 @@ createModalButton.addEventListener("click", async() => {
                     }
                 )
             }
+        ).then(
+            alert(`Grupo "${groupName}" criado com sucesso!`)
         )
-        const content = response.status
-
-        console.log(content)
-
-        alert(`Grupo "${groupName}" criado com sucesso!`);
         modal.style.display = "none";
     } else {
         alert("Por favor, insira um nome para o grupo.");
@@ -59,11 +56,13 @@ document.addEventListener("DOMContentLoaded", async() => {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization' : sessionStorage.getItem('token')
+                'Authorization' : 'Bearer ' + sessionStorage.getItem('token')
             }
         }
     )
-    console.log(response)
+    const content = await response.json()
+
+
 })
 
 
