@@ -49,7 +49,7 @@ public class QuestionController {
     UserRepository userRepo;
 
     @GetMapping("/space/{spaceId}")
-    public ResponseEntity<List<QuestionDto>> getQuestions(@PathVariable Long spaceId, Integer page, Integer size) {
+    public ResponseEntity<List<Question>> getQuestions(@PathVariable Long spaceId, Integer page, Integer size) {
         
         if(page == null)
             page = 1;
@@ -62,14 +62,14 @@ public class QuestionController {
         if(questions.isEmpty())
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
-        List<QuestionDto> questionsDto = new ArrayList<>();
+        // List<QuestionDto> questionsDto = new ArrayList<>();
 
-        for (Question question : questions) {
-            QuestionDto questionDto = new QuestionDto(question.getStatement(), question.getId() , question.getQuestioner().getId());
-            questionsDto.add(questionDto);
-        }
+        // for (Question question : questions) {
+        //     QuestionDto questionDto = new QuestionDto(question.getStatement(), question.getId() , question.getQuestioner().getId());
+        //     questionsDto.add(questionDto);
+        // }
 
-        return new ResponseEntity<>(questionsDto, HttpStatus.OK);
+        return new ResponseEntity<>(questions, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
