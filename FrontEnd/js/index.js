@@ -28,7 +28,7 @@ login_button.addEventListener('click', async() => {
 
     const content = await response.json()
 
-    if(response.status !== 200){
+    if(!response.ok){
         alert(content.message)
         return
     }

@@ -1,3 +1,5 @@
+const searchParams = new URLSearchParams(window.location.search);
+
 const lista = document.getElementById("lista");
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -48,3 +50,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 //                 </ul>`
 //              }))
 // }}
+    // content.forEach(element => {
+    //     lista.appendChild(`<div id="questao" class="mb-5">
+    //         <ul class="list-group list-group-horizontal list-group-light">
+    //             <li class="list-group-item d-flex flex-row gap-3">
+    //                 ${element.}
+    //             </li>
+    //             <li class="list-group-item d-flex flex-row gap-3">
+    //                 como faço um commit?
+    //             </li>
+    //         </ul>
+    //         </div>`)
+    // });
+})
+
+const go_configuration = document.getElementById('go_configuration')
+go_configuration.addEventListener('click', () => {
+    location.replace('/pageAdm.html?id=' + searchParams.get('id'))
+})
