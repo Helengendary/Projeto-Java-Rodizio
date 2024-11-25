@@ -25,14 +25,14 @@ public class User
     private String email;
 
     // FOREIGN KEY DE PAI
-    @OneToMany(mappedBy = "owner")
-    private Set<Spaces> spaces = new HashSet<>();
+    // @OneToMany(mappedBy = "owner")
+    // private Set<Spaces> spaces = new HashSet<>();
 
-    @OneToMany(mappedBy = "participant")
-    private Set<Permission> permission = new HashSet<>();
+    // @OneToMany(mappedBy = "participant")
+    // private Set<Permission> permission = new HashSet<>();
 
-    @OneToMany(mappedBy = "respondent")
-    private Set<Answer> answer = new HashSet<>();
+    // @OneToMany(mappedBy = "respondent")
+    // private Set<Answer> answer = new HashSet<>();
     
     public String getEdv() {
         return edv;
@@ -69,27 +69,27 @@ public class User
         this.password = password;
     }
 
-    public Set<Spaces> getSpaces() {
-        return spaces;
-    }
+    // public Set<Spaces> getSpaces() {
+    //     return spaces;
+    // }
 
-    public void setSpaces(Set<Spaces> spaces) {
-        this.spaces = spaces;
-    }
+    // public void setSpaces(Set<Spaces> spaces) {
+    //     this.spaces = spaces;
+    // }
 
-    public Set<Permission> getPermission() {
-        return permission;
-    }
+    // public Set<Permission> getPermission() {
+    //     return permission;
+    // }
 
-    public void setPermission(Set<Permission> permission) {
-        this.permission = permission;
-    }
+    // public void setPermission(Set<Permission> permission) {
+    //     this.permission = permission;
+    // }
 
-    public Set<Answer> getAnswer() {
-        return answer;
-    }
+    // public Set<Answer> getAnswer() {
+    //     return answer;
+    // }
 
-    public void setAnswer(Set<Answer> answer) {
-        this.answer = answer;
-    }
+    // public void setAnswer(Set<Answer> answer) {
+    //     this.answer = answer;
+    // }
 }
