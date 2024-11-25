@@ -35,5 +35,4 @@ login_button.addEventListener('click', async() => {
 
     sessionStorage.setItem('token', 'Bearer ' + content.token)
     location.replace("/pageInicial.html");
-
 })
