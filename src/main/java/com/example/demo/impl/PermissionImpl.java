@@ -23,8 +23,10 @@ public class PermissionImpl implements PermissionService {
         if (permissions.isEmpty() || permissions.size() > 1)
             return false;
         
-        permissions.get(0).setAdm(!idOwnerOrAdm);
-            
+        Permission permission = permissions.get(0);
+        permission.setAdm(!idOwnerOrAdm);
+        permissionRepo.save(permission);
+
         return true;
     }
 

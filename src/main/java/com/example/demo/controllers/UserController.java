@@ -29,7 +29,6 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<String> postNewUser(@RequestBody NewUserDto user){
-
         if(user.email() == null || user.edv() == null || user.password() == null)
             return new ResponseEntity<>("Preencha todos os campos!", HttpStatus.BAD_REQUEST);
 
@@ -37,6 +36,7 @@ public class UserController {
         
         if(!findedUsers.isEmpty())
             return new ResponseEntity<>("Edv já cadastrado.", HttpStatus.FORBIDDEN);
+
         
         userService.createUser(user.edv(), user.email(), user.password());
 
@@ -50,7 +50,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getusers(String query, Integer page, Integer size) {
+    public ResponseEntity<List<User>> getusers(String query, Integer page, Integer size){
 
         if(query == null)
             query = "";

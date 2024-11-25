@@ -4,6 +4,9 @@ const closeModalButton = document.getElementById("closeModal");
 const createModalButton = document.getElementById("createModal");
 const groupNameInput = document.getElementById("groupName");
 
+const groups_deck = document.getElementById("groups_deck")
+
+
 openModalButton.addEventListener("click", () => {
     modal.style.display = "flex";
     groupNameInput.value = ""; 
@@ -18,7 +21,6 @@ closeModalButton.addEventListener("click", () => {
 createModalButton.addEventListener("click", async() => {
     const groupName = groupNameInput.value.trim();
     if (groupName != ''){
-
         const response = await fetch(
             'http://localhost:8080/spaces',
             {
@@ -26,7 +28,7 @@ createModalButton.addEventListener("click", async() => {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'Authorization' : sessionStorage.getItem('token')
+                    'Authorization' : 'Bearer ' + sessionStorage.getItem('token')
                 },
                 body: JSON.stringify(
                     {
@@ -35,12 +37,10 @@ createModalButton.addEventListener("click", async() => {
                 )
             }
         )
-        const content = response.status
-
-        console.log(content)
-
-        alert(`Grupo "${groupName}" criado com sucesso!`);
-        modal.style.display = "none";
+            alert(`Grupo "${groupName}" criado com sucesso!`),
+            modal.style.display = "none",
+            location.reload()
+        
     } else {
         alert("Por favor, insira um nome para o grupo.");
     }
@@ -51,20 +51,6 @@ createModalButton.addEventListener("click", async() => {
 
 
 
-document.addEventListener("DOMContentLoaded", async() => {
-    const response = await fetch(
-        'http://localhost:8080/spaces?size=100',
-        {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization' : sessionStorage.getItem('token')
-            }
-        }
-    )
-    console.log(response)
-})
 
 
 
