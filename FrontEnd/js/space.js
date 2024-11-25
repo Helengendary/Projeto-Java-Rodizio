@@ -1,3 +1,5 @@
+const searchParams = new URLSearchParams(window.location.search);
+
 const lista = document.getElementById("lista");
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -27,4 +29,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     //         </ul>
     //         </div>`)
     // });
+})
+
+const go_configuration = document.getElementById('go_configuration')
+go_configuration.addEventListener('click', () => {
+    location.replace('/pageAdm.html?id=' + searchParams.get('id'))
 })
