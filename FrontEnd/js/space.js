@@ -4,7 +4,7 @@ const lista = document.getElementById("lista");
 
 document.addEventListener("DOMContentLoaded", async () => {
     const response = await fetch(
-        ("http://localhost:8080/question/space/" + 1 + "?size=100"),
+        ("http://localhost:8080/question/space/" + searchParams.get('id') + "?size=100"),
         {
             method: "GET",
             headers: {
@@ -14,20 +14,15 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
         }
     )
-    
-    console.log(response)
     const content = await response.json();
-    console.log(content);
     
     content.forEach(async (element, index) => {
-        console.log(1)
         const responseAnswers = await fetch("http://localhost:8080/answer/question/" + element.id, 
             {method: "GET", 
             headers: {'Accept': 'application/json', "Content-Type": "application/json", "Authorization": "Bearer " + sessionStorage.getItem("token")}}
         )
-        console.log(responseAnswers);
         const answers = await responseAnswers.json();
-        console.log(answers);
+        
         lista.innerHTML += `<div id="questao_${index}" class="mb-5">
             <ul class="list-group list-group-horizontal list-group-light mb-3">
                 <li class="list-group-item d-flex flex-row gap-3">
