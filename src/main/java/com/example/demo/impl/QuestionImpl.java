@@ -19,7 +19,7 @@ public class QuestionImpl implements QuestionService{
 
         Question question = new Question();
 
-        question.setQuestioner(permission);
+        // question.setQuestioner(permission);
         question.setStatement(statement);
 
         repository.save(question);

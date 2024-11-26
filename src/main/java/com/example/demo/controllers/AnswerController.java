@@ -1,6 +1,5 @@
 package com.example.demo.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,11 +52,12 @@ public class AnswerController {
 
     @GetMapping("/question/{questionId}")
     public ResponseEntity<List<Answer>> getAnswer(@PathVariable Long questionId) {
-        
-        List<Answer> answers = answerRepo.findByQuestion(questionRepo.findById(questionId).get());
-
-        if(answers.isEmpty())
+        List<Answer> answers;
+        try {
+            answers = answerRepo.findByQuestion(questionRepo.findById(questionId).get());
+        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
 
         // List<AnswerDto> answersDto = new ArrayList<>();
 

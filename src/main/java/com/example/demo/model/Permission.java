@@ -33,8 +33,11 @@ public class Permission {
     private Spaces space;
     
     // FOREIGN KEY DE PAI
-    @OneToMany(mappedBy = "questioner")
-    private Set<Question> question = new HashSet<>();
+    // @OneToMany(mappedBy = "questioner")
+    // private Set<Question> question = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "question_id")
+    private Question question;
 
     public Long getId() {
         return id;
@@ -68,11 +71,11 @@ public class Permission {
         this.participant = participant;
     }
 
-    public Set<Question> getQuestion() {
+    public Question getQuestion() {
         return question;
     }
 
-    public void setQuestion(Set<Question> question) {
+    public void setQuestion(Question question) {
         this.question = question;
     }
 }

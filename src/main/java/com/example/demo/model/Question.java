@@ -7,10 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.Set;
-import java.util.HashSet;
 
 @Entity
 @Table(name= "tbQuestion")
@@ -26,11 +23,11 @@ public class Question {
     // FOREIGN KEY DE FILHO
     @ManyToOne
     @JoinColumn
-    private Permission questioner;
+    private User questioner;
     
     // FOREIGN KEY DE PAI
-    @OneToMany(mappedBy = "question")
-    private Set<Answer> answer = new HashSet<>();
+    // @OneToMany(mappedBy = "question")
+    // private Set<Answer> answer = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -48,19 +45,19 @@ public class Question {
         this.statement = statement;
     }
 
-    public Set<Answer> getAnswer() {
-        return answer;
-    }
+    // public Set<Answer> getAnswer() {
+    //     return answer;
+    // }
 
-    public void setAnswer(Set<Answer> answer) {
-        this.answer = answer;
-    }
+    // public void setAnswer(Set<Answer> answer) {
+    //     this.answer = answer;
+    // }
 
-    public Permission getQuestioner() {
+    public User getQuestioner() {
         return questioner;
     }
 
-    public void setQuestioner(Permission questioner) {
+    public void setQuestioner(User questioner) {
         this.questioner = questioner;
     }
 }

@@ -1,17 +1,13 @@
 package com.example.demo.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.GenerationType;
 
 @Entity
 @Table(name= "tbSpace")
@@ -30,8 +26,8 @@ public class Spaces {
     private User owner;
 
     // FOREIGN KEY DE PAI
-    @OneToMany(mappedBy = "space")
-    private Set<Permission> permission = new HashSet<>();
+    // @OneToMany(mappedBy = "space")
+    // private Set<Permission> permission = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -57,11 +53,11 @@ public class Spaces {
         this.owner = owner;
     }
 
-    public Set<Permission> getPermission() {
-        return permission;
-    }
+    // public Set<Permission> getPermission() {
+    //     return permission;
+    // }
 
-    public void setPermission(Set<Permission> permission) {
-        this.permission = permission;
-    }
+    // public void setPermission(Set<Permission> permission) {
+    //     this.permission = permission;
+    // }
 }
