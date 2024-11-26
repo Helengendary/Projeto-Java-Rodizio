@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async() => {
     }
 
     const content_users_permissions = await response_users_permissions.json()
-    console.log(content_users_permissions),
+    console.log(content_users_permissions)
 
     content_users_permissions.forEach(e => {
         users_deck.innerHTML += 
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", async() => {
                     })
                 }
             )
-        if(response_permissions.status == 403)
+        if(!response_permissions.ok)
             s.checked = !s.checked
 
         alert(await response_permissions.text())
@@ -65,8 +65,25 @@ document.addEventListener("DOMContentLoaded", async() => {
 
 const delete_button = document.getElementById('delete_button')
 
-delete_button.addEventListener('click', () => {
-    console.log(searchParams.get('id'))
+delete_button.addEventListener('click', async() => {
+    const delete_response = await fetch(
+        'http://localhost:8080/spaces',
+        {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization' : 'Bearer ' + sessionStorage.getItem('token')
+            },
+            body: JSON.stringify({
+                id: searchParams.get('id')
+            })
+        }
+    )
+    if(delete_response.ok)
+        location.replace('./pageGroup.html')
+    else
+        alert(await delete_response.text())
 })
 
 
@@ -87,10 +104,13 @@ add_user.addEventListener('click', async() => {
             }
         }
     )
+    if(!response_users.ok){
+        alert("Usuário nao encontrado")
+        return
+    }
 
     let user = await response_users.json()
     user = user[0]
-
     
     const response_permissions = await fetch(
         'http://localhost:8080/permission',
@@ -108,6 +128,11 @@ add_user.addEventListener('click', async() => {
             })
         }
     )
+    if(!response_users.ok){
+        alert("Você não possui permissão de administrador")
+        return
+    }
 
     alert(await response_permissions.text())
+    location.reload()
 })

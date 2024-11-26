@@ -51,7 +51,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<User>> getusers(String query, Integer page, Integer size){
-
+        System.out.println(query);
         if(query == null)
             query = "";
         
