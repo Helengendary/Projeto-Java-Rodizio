@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async() => {
         groups_deck.innerHTML += `
              <tr id_space="${e.id}">
                 <td>${e.name}</td>
-                <td><a href="./space.html?id=${e.id}"><button class="btn btn-custom">Abrir</button></a></td>
+                <td><a href="./space.html?id=${e.id}"><button class="btn btn-custom" style="background-color: white;">Abrir</button></a></td>
             </tr>
         `
     })
