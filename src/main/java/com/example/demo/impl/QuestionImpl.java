@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.demo.model.Permission;
 import com.example.demo.model.Question;
+import com.example.demo.model.User;
 import com.example.demo.repositories.QuestionRepository;
 import com.example.demo.service.QuestionService;
 
@@ -13,13 +14,14 @@ public class QuestionImpl implements QuestionService{
     QuestionRepository repository;
 
     @Override
-    public Boolean createQuestion(String statement, Permission permission) {
+    public Boolean createQuestion(String statement, User user) {
 
         
 
         Question question = new Question();
 
-        // question.setQuestioner(permission);
+        question.setQuestioner(user);
+
         question.setStatement(statement);
 
         repository.save(question);
