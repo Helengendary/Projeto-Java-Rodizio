@@ -88,16 +88,14 @@ public class QuestionController {
     @PostMapping()
     public ResponseEntity<String> postQuestion(@RequestAttribute("token") Token token, @RequestBody NewQuestionDto question) {
 
-        User user = userRepo.findById(token.getId()).get();
-
         Spaces space = spaceRepo.findById(question.idSpace()).get();
 
-        List<Permission> permissions = permissionRepo.findBySpaceAndParticipant(space, user);
+        List<Permission> permissions = permissionRepo.findBySpaceAndParticipant(space, userRepo.findById(token.getId()).get());
 
         if(permissions.isEmpty())
             return new ResponseEntity<>("Voce não tem essa permissao", HttpStatus.FORBIDDEN);
 
-        questionService.createQuestion(question.statement(), permissions.get(0));
+        questionService.createQuestion(question.statement(), userRepo.findById(token.getId()).get());
 
         return new ResponseEntity<>("Pergunta enviada", HttpStatus.OK);
 

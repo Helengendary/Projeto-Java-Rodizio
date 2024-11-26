@@ -22,7 +22,7 @@ public class Question {
 
     // FOREIGN KEY DE FILHO
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "questioner_id")
     private User questioner;
     
     // FOREIGN KEY DE PAI

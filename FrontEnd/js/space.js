@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             headers: {'Accept': 'application/json', "Content-Type": "application/json", "Authorization": "Bearer " + sessionStorage.getItem("token")}}
         )
         const answers = await responseAnswers.json();
-        
+
         lista.innerHTML += `<div id="questao_${index}" class="mb-5">
             <ul class="list-group list-group-horizontal list-group-light mb-3">
                 <li class="list-group-item d-flex flex-row gap-3">
@@ -52,3 +52,51 @@ const go_configuration = document.getElementById('go_configuration')
 go_configuration.addEventListener('click', () => {
     location.replace('/pageAdm.html?id=' + searchParams.get('id'))
 })
+
+const modal = document.getElementById("modal");
+const openModalButton = document.getElementById("createGroup");
+const closeModalButton = document.getElementById("closeModal");
+const createModalButton = document.getElementById("createModal");
+const questionInput = document.getElementById("question");
+
+
+
+openModalButton.addEventListener("click", () => {
+    modal.style.display = "flex";
+    questionInput.value = ""; 
+    questionInput.focus(); 
+});
+
+
+closeModalButton.addEventListener("click", () => {
+    modal.style.display = "none";
+});
+
+createModalButton.addEventListener("click", async() => {
+    const question = questionInput.value.trim();
+    if (question != ''){
+        const response = await fetch(
+            'http://localhost:8080/question',
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization' : 'Bearer ' + sessionStorage.getItem('token')
+                },
+                body: JSON.stringify(
+                    {
+                        "statement": question,
+                        "idSpace": searchParams.get('id')
+                    }
+                )
+            }
+        )
+            alert(`Questão "${question}" criada com sucesso!`),
+            modal.style.display = "none",
+            location.reload()
+        
+    } else {
+        alert("Por favor, insira a questão.");
+    }
+});
