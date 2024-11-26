@@ -15,4 +15,5 @@ public interface PermissionRepository extends JpaRepository<Permission, Long> {
     List<Permission> findBySpace(Spaces space);
     List<Permission> findByParticipant(User user);
     List<Permission> findBySpaceAndParticipant(Spaces space, User user);
+    List<Permission> findBySpaceId(Long spaceId);
 }

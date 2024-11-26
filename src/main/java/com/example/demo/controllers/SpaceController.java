@@ -99,12 +99,14 @@ public class SpaceController {
         if(spaces.isEmpty())
             return new ResponseEntity<>("Espaço não encontrado", HttpStatus.NOT_FOUND);
 
-        List<Permission> permissions = permissionRepo.findBySpaceAndParticipant(spaces.get(), users.get());
+        List<Permission> permissions = permissionRepo.findBySpace(spaces.get());
 
         if (permissions.isEmpty() || !permissions.get(0).getAdm()) 
             return new ResponseEntity<>("Você não tem permissão", HttpStatus.FORBIDDEN);
 
-        permissionService.deletePermission(permissions.get(0).getId());
+        for (Permission permission : permissions) {
+            permissionService.deletePermission(permission.getId());
+        }
             
         if(!spaceService.deleteSpace(space.id()))
             return new ResponseEntity<>("Erro deletando o espaço", HttpStatus.NOT_ACCEPTABLE);

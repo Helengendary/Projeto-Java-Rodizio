@@ -30,8 +30,8 @@ public class Spaces {
     private User owner;
 
     // FOREIGN KEY DE PAI
-    @OneToMany(mappedBy = "space")
-    private Set<Permission> permission = new HashSet<>();
+    // @OneToMany(mappedBy = "space")
+    // private Set<Permission> permission = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -57,11 +57,11 @@ public class Spaces {
         this.owner = owner;
     }
 
-    public Set<Permission> getPermission() {
-        return permission;
-    }
+    // public Set<Permission> getPermission() {
+    //     return permission;
+    // }
 
-    public void setPermission(Set<Permission> permission) {
-        this.permission = permission;
-    }
+    // public void setPermission(Set<Permission> permission) {
+    //     this.permission = permission;
+    // }
 }
