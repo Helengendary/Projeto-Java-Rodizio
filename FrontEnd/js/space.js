@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <li class="list-group-item d-flex flex-row gap-3">
                     ${element.statement}
                 </li>
+                <input placeholder="responder" class="p-2" id="r_${element.id}" name="resposta">
             </ul> 
             </div>`
         answers.forEach(elemento => {
@@ -100,3 +101,35 @@ createModalButton.addEventListener("click", async() => {
         alert("Por favor, insira a questão.");
     }
 });
+
+document.getElementsByName("resposta").forEach(r => {
+    r.addEventListener("", async() => {
+        const resposta = document.getElementById(r.id).value;
+        if (resposta != ''){
+            const response = await fetch(
+                'http://localhost:8080/answer',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization' : 'Bearer ' + sessionStorage.getItem('token')
+                    },
+                    body: JSON.stringify(
+                        {
+                            "statement": resposta,
+                            "questionId": r.id.replace("r_",""),
+                            "spaceId": searchParams.get('id')
+                        }
+                    )
+                }
+            )
+                alert(`Resposta "${resposta}" criada com sucesso!`),
+                modal.style.display = "none",
+                location.reload()
+            
+        } else {
+            alert("Por favor, insira a resposta.");
+        }
+    });
+})
